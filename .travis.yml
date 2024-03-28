@@ -3,22 +3,22 @@ services:
   - docker
 
 before_install:
-  - docker build -t prince/client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t pgsoncada/client-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true prince/client-test npm test
+  - docker run -e CI=true pgsoncada/client-test npm test
 
 after_success:
-  - docker build -t prince/multi-client ./client/Dockerfile
-  - docker build -t prince/multi-nginx ./nginx/Dockerfile
-  - docker build -t prince/multi-server ./server/Dockerfile
-  - docker build -t prince/multi-worker ./worker/Dockerfile
+  - docker build -t pgsoncada/multi-client ./client/Dockerfile
+  - docker build -t pgsoncada/multi-nginx ./nginx/Dockerfile
+  - docker build -t pgsoncada/multi-server ./server/Dockerfile
+  - docker build -t pgsoncada/multi-worker ./worker/Dockerfile
   
   # Log in to the docker CLI
   - echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Push the images to docker hub
-  - docker push prince/multi-client
-  - docker push prince/multi-nginx
-  - docker push prince/multi-server
-  - docker push prince/multi-worker
+  - docker push pgsoncada/multi-client
+  - docker push pgsoncada/multi-nginx
+  - docker push pgsoncada/multi-server
+  - docker push pgsoncada/multi-worker
