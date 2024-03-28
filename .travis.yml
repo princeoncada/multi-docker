@@ -5,22 +5,19 @@ services:
   - docker
 
 before_install:
-  - docker build -t pgsoncada/client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true pgsoncada/client-test npm test
+  - docker run -e CI=true react-test npm test
 
 after_success:
-  - docker build -t princeoncada/multi-client ./client/Dockerfile
-  - docker build -t princeoncada/multi-nginx ./nginx/Dockerfile
-  - docker build -t princeoncada/multi-server ./server/Dockerfile
-  - docker build -t princeoncada/multi-worker ./worker/Dockerfile
-  
+  - docker build -t pgsoncada/multi-client ./client
+  - docker build -t pgsoncada/multi-nginx ./nginx
+  - docker build -t pgsoncada/multi-server ./server
+  - docker build -t pgsoncada/multi-worker ./worker
   # Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin docker.io
-
-  # Push the images to docker hub
-  - docker tag princeoncada/multi-client pgsoncada/multi-client
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
   - docker push pgsoncada/multi-client
   - docker push pgsoncada/multi-nginx
   - docker push pgsoncada/multi-server
