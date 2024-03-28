@@ -15,7 +15,7 @@ after_success:
   - docker build -t pgsoncada/multi-worker ./worker/Dockerfile
   
   # Log in to the docker CLI
-  - echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Push the images to docker hub
   - docker push pgsoncada/multi-client
