@@ -3,22 +3,22 @@ services:
   - docker
 
 before_install:
-  - docker build -t princeoncada/client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t client-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true princeoncada/client-test npm test
+  - docker run -e CI=true client-test npm test
 
 after_success:
-  - docker build -t princeoncada/multi-client ./client/Dockerfile
-  - docker build -t princeoncada/multi-nginx ./nginx/Dockerfile
-  - docker build -t princeoncada/multi-server ./server/Dockerfile
-  - docker build -t princeoncada/multi-worker ./worker/Dockerfile
+  - docker build -t multi-client ./client/Dockerfile
+  - docker build -t multi-nginx ./nginx/Dockerfile
+  - docker build -t multi-server ./server/Dockerfile
+  - docker build -t multi-worker ./worker/Dockerfile
   
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Push the images to docker hub
-  - docker push princeoncada/multi-client
-  - docker push princeoncada/multi-nginx
-  - docker push princeoncada/multi-server
-  - docker push princeoncada/multi-worker
+  - docker push multi-client
+  - docker push multi-nginx
+  - docker push multi-server
+  - docker push multi-worker
